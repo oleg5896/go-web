@@ -2,12 +2,10 @@ package service
 
 import "github.com/oleg5896/go-web/pkg/repository"
 
-type WebItem interface{
-
+type WebItem interface {
 }
 
-type WebList interface{
-
+type WebList interface {
 }
 
 type Service struct {
@@ -15,6 +13,6 @@ type Service struct {
 	WebList
 }
 
-func newService(repos *repository.Repository) *Service{
+func newService(repos *repository.Repository) *Service {
 	return &Service{}
 }

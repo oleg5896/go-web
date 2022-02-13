@@ -5,14 +5,14 @@ import (
 	"github.com/oleg5896/go-web/pkg/service"
 )
 
-type Handler struct{
+type Handler struct {
 	services *service.Service
 }
 
-func NewHandler (services *service.Service) *Handler{
+func newHandler(services *service.Service) *Handler {
 	return &Handler{services: services}
 }
-func(h *Handler) InitRoutes () *gin.Engine{
+func (h *Handler) InitRoutes() *gin.Engine {
 	router := gin.New()
 
 	list := router.Group("/list")

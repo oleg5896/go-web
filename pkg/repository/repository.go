@@ -1,12 +1,9 @@
 package repository
 
-
-type WebItem interface{
-
+type WebItem interface {
 }
 
-type WebList interface{
-
+type WebList interface {
 }
 
 type Repository struct {
@@ -14,6 +11,6 @@ type Repository struct {
 	WebList
 }
 
-func newRepository() *Repository{
+func newRepository() *Repository {
 	return &Repository{}
 }
