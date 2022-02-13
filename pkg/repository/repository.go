@@ -11,6 +11,6 @@ type Repository struct {
 	WebList
 }
 
-func newRepository() *Repository {
+func NewRepository() *Repository {
 	return &Repository{}
 }
