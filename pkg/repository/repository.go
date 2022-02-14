@@ -1,18 +1,28 @@
 package repository
 
-import "github.com/jmoiron/sqlx"
+import (
+	"github.com/jmoiron/sqlx"
+	goweb "github.com/oleg5896/go-web"
+)
 
-type WebItem interface {
+type AddItem interface {
+	AddFile(file goweb.File) (int, error)
 }
 
-type WebList interface {
+type GetItem interface {
+}
+
+type GetList interface {
 }
 
 type Repository struct {
-	WebItem
-	WebList
+	AddItem
+	GetItem
+	GetList
 }
 
 func NewRepository(db *sqlx.DB) *Repository {
-	return &Repository{}
+	return &Repository{
+		AddItem: NewItemPg(db),
+	}
 }

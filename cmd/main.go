@@ -14,6 +14,7 @@ import (
 
 func main() {
 	logrus.SetFormatter(new(logrus.JSONFormatter))
+	logrus.SetLevel(logrus.DebugLevel)
 
 	if err := InitConfig(); err != nil {
 		logrus.Fatalf("error init Config: %s", err.Error())
@@ -42,7 +43,7 @@ func main() {
 
 	srv := new(goweb.Server)
 	if err := srv.Run(viper.GetString("port"), handlers.InitRoutes()); err != nil {
-		logrus.Fatal("error start server")
+		logrus.Fatal("error start server: " + err.Error())
 	}
 }
 

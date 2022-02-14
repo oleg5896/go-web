@@ -12,18 +12,20 @@ type Handler struct {
 func NewHandler(services *service.Service) *Handler {
 	return &Handler{services: services}
 }
-func (h *Handler) InitRoutes() *gin.Engine {
-	router := gin.New()
 
+func (h *Handler) InitRoutes() *gin.Engine {
+	router := gin.Default()
+	router.MaxMultipartMemory = 8 << 20
 	list := router.Group("/list")
 	{
 		list.GET("/", h.getList)
 	}
 
-	item := router.Group("/item")
+	item := router.Group("/items")
 	{
-		item.POST("/:id", h.addItem)
-		item.GET("/:id", h.getItem)
+		item.POST("/add/", h.addItem)
+		item.GET("/add/", h.getItem)
+		item.GET("/", h.getItem)
 	}
 	return router
 }

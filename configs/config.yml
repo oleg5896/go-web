@@ -3,5 +3,7 @@ db:
     username: "bond"
     host: "localhost"
     port: "5432"
-    dbname: "postgres"
+    dbname: "files"
     sslmode: "disable"
+
+upload_dir: "./uploads/"

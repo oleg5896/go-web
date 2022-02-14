@@ -7,6 +7,10 @@ import (
 	_ "github.com/lib/pq"
 )
 
+const (
+	filesTable = "files"
+)
+
 type Config struct {
 	Host     string
 	Port     string
