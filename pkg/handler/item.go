@@ -13,8 +13,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
-	// goweb "github.com/oleg5896/go-web"
-	// "github.com/spf13/viper"
+	goweb "github.com/oleg5896/go-web"
 )
 
 func (h *Handler) getItem(c *gin.Context) {
@@ -47,7 +46,8 @@ func (pr *Progress) Print() {
 }
 
 func (h *Handler) addItem(c *gin.Context) {
-	// var input goweb.File
+	var input goweb.File
+	var ids []int
 	form, _ := c.MultipartForm()
 	files := form.File["files"]
 
@@ -55,6 +55,7 @@ func (h *Handler) addItem(c *gin.Context) {
 
 		// Open the file
 		file, err := fileHeader.Open()
+		input.Path = fileHeader.Filename
 		if err != nil {
 			NewErrorResponse(c, http.StatusInternalServerError, err.Error())
 			return
@@ -74,7 +75,7 @@ func (h *Handler) addItem(c *gin.Context) {
 			return
 		}
 
-		f, err := os.Create(fmt.Sprintf("./uploads/%s", fileHeader.Filename))
+		f, err := os.Create(fmt.Sprintf("./uploads/%s", input.Path))
 		if err != nil {
 			NewErrorResponse(c, http.StatusBadRequest, err.Error())
 			return
@@ -91,7 +92,19 @@ func (h *Handler) addItem(c *gin.Context) {
 			NewErrorResponse(c, http.StatusBadRequest, err.Error())
 			return
 		}
+		id, err := h.services.AddItem.AddFile(input)
+		if err != nil {
+			NewErrorResponse(c, http.StatusBadRequest, err.Error())
+			return
+		} else {
+			ids = append(ids, id)
+		}
 	}
+	
+
+	c.JSON(http.StatusOK, map[string]interface{}{
+		"ids": ids,
+	})
 
 	// err := c.Request.ParseMultipartForm(200000) // grab the multipart form
 	// if err != nil {
